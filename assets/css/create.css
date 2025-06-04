@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #F2F0F0;
+    color: #0D0D0D;
+    font-family: "Inconsolata", 'Courier New', Courier, monospace;
+}
+
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #F2E5D5;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(13, 13, 13, 0.1);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #0D0D0D;
+}
+
+form div {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 16px;
+    color: #0D0D0D;
+}
+
+.marital label {
+    display: inline-block;
+    margin-right: 10px;
+    margin-bottom: 0;
+}
+
+.partLabel {
+    display: inline-block;
+}
+
+input[type="text"],
+input[type="date"],
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #8C8C8C;
+    border-radius: 4px;
+    background-color: #F2E9F0;
+    color: #0D0D0D;
+    font-size: 15px;
+}
+
+input[type="checkbox"] {
+    margin-right: 8px;
+}
+
+#firstNameError,
+#lastNameError,
+#phoneError,
+#emailError,
+#birthdayError,
+#maritalStatusError,
+#governmentError {
+    color: #d50000;
+    font-size: 14px;
+    margin-top: 4px;
+}
+
+button, a {
+    background-color: #0D0D0D;
+    color: #F2F0F0;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #545454;
+}
+
+#goToMembersPage {
+    text-align: center;
+    margin: 20px auto 0;
+    background-color: #0D0D0D;
+    color: #F2F0F0;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#goToMembersPage:hover {
+    background-color: #8C8C8C;
+}

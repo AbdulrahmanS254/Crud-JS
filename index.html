@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="create member page">
+    <link rel="shortcut icon" href="./assets/images/person.png" type="image/png">
+    <link rel="stylesheet" href="./assets/css/create.css">
+    <title>Create Member</title>
+    <script src="./assets/js/validate.js" defer></script>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Create Member</h1>
+
+        <form id="memberForm">
+
+            <div>
+                <label for="firstName">First Name:</label>
+                <input type="text" id="firstName" name="firstName">
+                <div id="firstNameError"></div>
+            </div>
+
+            <div>
+                <label for="lastName">Last Name:</label>
+                <input type="text" id="lastName" name="lastName">
+                <div id="lastNameError"></div>
+            </div>
+
+            <div>
+                <label for="phone">Phone Number:</label>
+                <input type="text" id="phone" name="phone">
+                <div id="phoneError"></div>
+            </div>
+
+            <div>
+                <label for="email">Email:</label>
+                <input type="text" id="email" name="email">
+                <div id="emailError"></div>
+            </div>
+
+            <div>
+                <label for="birthday">Birthday:</label>
+                <input type="date" id="birthday" name="birthday">
+                <div id="birthdayError"></div>
+            </div>
+
+            <div>
+                <label>Marital Status:</label>
+                <div class="marital">
+                    <input type="radio" id="single" name="maritalStatus" value="Single">
+                    <label for="single">Single</label>
+                    <input type="radio" id="married" name="maritalStatus" value="Married">
+                    <label for="married">Married</label>
+                </div>
+                <div id="maritalStatusError"></div>
+            </div>
+
+            <div>
+                <label for="government">Government:</label>
+                <select id="government" name="government">
+                    <option value="">-- Select --</option>
+                    <option value="Cairo">Cairo</option>
+                    <option value="Benisuef">Benisuef</option>
+                    <option value="Alexandria">Alexandria</option>
+                </select>
+                <div id="governmentError"></div>
+            </div>
+
+            <div>
+                <input type="checkbox" id="partTime" name="partTime">
+                <label class="partLabel" for="partTime">Part Time</label>
+            </div>
+
+            <div>
+                <button type="submit">Save Member</button>
+                <a id="goToMembersPage" href="./members.html">Go to Members List</a>
+            </div>
+
+        </form>
+
+    </div>
+
+</body>
+
+</html>
