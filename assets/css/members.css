@@ -108,7 +108,7 @@ table button {
 }
 
 .viewBtn {
-    background: #8C8C8C;
+    background: #555555;
     color: #F2F0F0;
 }
 
@@ -145,3 +145,4 @@ table button {
 .closeBtn:hover {
     color: #d50000;
 }
+
