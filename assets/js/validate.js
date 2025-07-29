@@ -12,6 +12,31 @@ const partTimeCheck = document.getElementById("partTime");
 // user data object
 let allMembers = JSON.parse(localStorage.getItem("allMembers") || "[]");
 
+// ====> Edit Mode Code
+let params = new URLSearchParams(window.location.search);
+let userId = params.get("id");
+if (userId) {
+    let user = allMembers.find((item) => item.id == userId);
+
+    if (user) {
+        firstName.value = user.firstName;
+        lastName.value = user.lastName;
+        phone.value = user.phone;
+        email.value = user.email;
+        birthday.value = user.birth;
+
+        // Marital status
+        if (user.marital === "Single") {
+            single.checked = true;
+        } else if (user.marital === "Married") {
+            married.checked = true;
+        }
+
+        govern.value = user.govern;
+        partTimeCheck.checked = user.partTime;
+    }
+}
+
 // Regular expressions for validation
 const checkName = /^[A-Za-z]{2,}$/;
 const checkMail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -117,7 +142,7 @@ form.addEventListener("submit", (e) => {
 
     // Checking if user signed before
 
-    /* Wrong check
+    /* ===> Wrong check <===
     for (let i = 0; i < allMembers.length; i++) {
         if (allMembers[i]["phone"] === member["phone"]) {
             window.alert("phone number used before");
@@ -139,14 +164,32 @@ form.addEventListener("submit", (e) => {
     }
 
     let time = new Date();
-    member["created_At"] = time;
-    member["updated_At"] = "";
-    let randomNo = Math.floor(Math.random() * 1000);
-    member["id"] = Date.now() + randomNo;
 
-    allMembers.push(member);
+    if (userId) {
+        // Edit existing member
+        let index = allMembers.findIndex((item) => item.id == userId);
+        if (index !== -1) {
+            member["id"] = allMembers[index]["id"];
+            member["created_At"] = allMembers[index]["created_At"];
+            member["updated_At"] = time;
+            allMembers[index] = member;
+            alert("Member updated successfully");
+        }
+    } else {
+        // Create new member
+        member["created_At"] = time;
+        member["updated_At"] = "";
+        let randomNo = Math.floor(Math.random() * 1000);
+        member["id"] = Date.now() + randomNo;
+        allMembers.push(member);
+        alert("Member added successfully");
+    }
+
+    if (!userId) {
+        allMembers.push(member);
+    }
+
     localStorage.setItem("allMembers", JSON.stringify(allMembers));
 
-    form.reset();
-    window.alert("Member Added");
+    window.location.href = "index.html";
 });

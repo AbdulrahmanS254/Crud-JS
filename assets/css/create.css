@@ -12,6 +12,10 @@ body {
     font-family: "Inconsolata", 'Courier New', Courier, monospace;
 }
 
+a {
+    text-decoration: none;
+}
+
 .container {
     max-width: 800px;
     margin: 50px auto;
@@ -76,7 +80,8 @@ input[type="checkbox"] {
     margin-top: 4px;
 }
 
-button, a {
+button,
+a {
     background-color: #0D0D0D;
     color: #F2F0F0;
     padding: 12px 20px;
