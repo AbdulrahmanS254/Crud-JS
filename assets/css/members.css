@@ -44,7 +44,8 @@ h1 {
     transition: background 0.3s ease;
 }
 
-.actions button:hover {
+.actions button:hover, 
+#createMemberBtn:hover {
     background: #545454;
 }
 

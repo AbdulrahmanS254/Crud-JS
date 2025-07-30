@@ -1,27 +1,22 @@
-// i will get the users from local storage first
-
+// =====> Get members data from local storage or set to empty array if not found
 let members = JSON.parse(localStorage.getItem("allMembers") || "[]");
 
-// now i got the members data from local storage
-
+// =====> DOM element references
 const table = document.getElementById("membersTable");
 const tableBody = document.getElementById("tableBody");
-
 const memberModal = document.getElementById("memberModal");
 
-// function to not repeat the code for rendering every element
+// =====> Helper function to render specific table cell
 function renderData(element, propertyName, row) {
     let cell = document.createElement("td");
-
     let value =
         element[propertyName] ||
         (propertyName === "updated_At" ? element.created_At : "");
-
     cell.innerHTML = value;
     row.appendChild(cell);
 }
 
-// button creation for every row
+// =====> Helper function to create buttons (View, Edit, Delete)
 function buttonCreate(className, id, btnText, cell) {
     let btn = document.createElement("button");
     btn.classList.add(className);
@@ -30,38 +25,79 @@ function buttonCreate(className, id, btnText, cell) {
     cell.appendChild(btn);
 }
 
-members.forEach((el) => {
-    let row = document.createElement("tr");
-    row.setAttribute("data-id", el.id);
-    let nameCell = document.createElement("td");
-    nameCell.innerHTML = el.firstName + " " + el.lastName;
-    row.appendChild(nameCell);
+// =====> Renders the table based on current filters
+function renderTable(search = "", govern = "", marital = "", partTime = false) {
+    tableBody.innerHTML = ""; // Clear previous table rows
 
-    renderData(el, "phone", row);
-    renderData(el, "govern", row);
-    renderData(el, "created_At", row);
-    renderData(el, "updated_At", row);
+    // Filter members based on the provided criteria
+    let data = members.filter((item) => {
+        const fullName = (item.firstName + " " + item.lastName).toLowerCase();
+        const matchSearch = fullName.includes(search.toLowerCase());
+        const matchGovern = !govern || item.govern === govern;
+        const matchMarital = !marital || item.marital === marital;
+        const matchPartTime = !partTime || item.partTime === true;
 
-    let buttonsCell = document.createElement("td");
+        return matchSearch && matchGovern && matchMarital && matchPartTime;
+    });
 
-    // view
-    buttonCreate("viewBtn", el.id, "View", buttonsCell);
-    // edit
-    buttonCreate("editBtn", el.id, "Edit", buttonsCell);
-    // delete
-    buttonCreate("deleteBtn", el.id, "Delete", buttonsCell);
+    // Create table rows for filtered data
+    data.forEach((item) => {
+        let row = document.createElement("tr");
+        row.setAttribute("data-id", item.id);
 
-    row.appendChild(buttonsCell);
+        // Name cell
+        let nameCell = document.createElement("td");
+        nameCell.innerHTML = item.firstName + " " + item.lastName;
+        row.appendChild(nameCell);
 
-    tableBody.appendChild(row);
-});
+        // Other data cells
+        renderData(item, "phone", row);
+        renderData(item, "govern", row);
+        renderData(item, "created_At", row);
+        renderData(item, "updated_At", row);
 
-// =====> Modal viewing
-const viewButton = document.querySelectorAll(".viewBtn");
+        // Buttons cell
+        let buttonsCell = document.createElement("td");
+        buttonCreate("viewBtn", item.id, "View", buttonsCell);
+        buttonCreate("editBtn", item.id, "Edit", buttonsCell);
+        buttonCreate("deleteBtn", item.id, "Delete", buttonsCell);
+        row.appendChild(buttonsCell);
+
+        tableBody.appendChild(row);
+    });
+
+    // Rebind events for the newly created buttons
+    rebindEventListeners();
+}
+
+renderTable(); // Initial render
+
+// =====> Filter elements
+const searchInput = document.getElementById("searchInput");
+const governFilter = document.getElementById("filterGovernment");
+const maritalStatus = document.getElementById("filterMarital");
+const partTimeCheck = document.getElementById("filterPartTime");
+
+// =====> Filter update handler
+function updateFilter() {
+    const search = searchInput.value;
+    const govern = governFilter.value;
+    const marital = maritalStatus.value;
+    const partTime = partTimeCheck.checked;
+
+    renderTable(search, govern, marital, partTime);
+}
+
+// =====> Event listeners for filters
+searchInput.addEventListener("input", updateFilter);
+governFilter.addEventListener("change", updateFilter);
+maritalStatus.addEventListener("change", updateFilter);
+partTimeCheck.addEventListener("change", updateFilter);
+
+// =====> Modal display close button
 const closeModal = document.querySelector(".closeBtn");
-const modalDetails = document.getElementById("modalDetails");
 
-// calling the details elements
+// =====> Modal data elements
 const modalName = document.getElementById("userName");
 const modalPhone = document.getElementById("userPhone");
 const modalMail = document.getElementById("userMail");
@@ -72,45 +108,29 @@ const modalPart = document.getElementById("userPart");
 const modalCreated = document.getElementById("userCreated");
 const modalUpdated = document.getElementById("userUpdated");
 
-viewButton.forEach((el) => {
-    el.addEventListener("click", () => {
+// =====> Function to view user data in modal
+function viewMemberById(id) {
+    const user = members.find((item) => item.id == id);
+    if (user) {
+        modalName.innerHTML = user.firstName + " " + user.lastName;
+        modalPhone.innerHTML = user.phone;
+        modalMail.innerHTML = user.email;
+        modalBirth.innerHTML = user.birth;
+        modalStatus.innerHTML = user.marital;
+        modalGovern.innerHTML = user.govern;
+        modalPart.innerHTML = user.partTime ? "Yes" : "No";
+        modalCreated.innerHTML = user.created_At;
+        modalUpdated.innerHTML = user.updated_At || user.created_At;
         memberModal.style.display = "flex";
-    });
-});
+    }
+}
 
+// =====> Close modal on close button click
 closeModal.addEventListener("click", () => {
     memberModal.style.display = "none";
 });
 
-function viewMemberById(id) {
-    const user = members.findIndex((item) => item.id == id);
-    if (user !== -1) {
-        let userObject = members[user];
-        modalName.innerHTML =
-            userObject["firstName"] + " " + userObject["lastName"];
-        modalPhone.innerHTML = userObject["phone"];
-        modalMail.innerHTML = userObject["email"];
-        modalBirth.innerHTML = userObject["birth"];
-        modalStatus.innerHTML = userObject["marital"];
-        modalGovern.innerHTML = userObject["govern"];
-        modalPart.innerHTML = userObject["partTime"] ? "Yes" : "No";
-        modalCreated.innerHTML = userObject["created_At"];
-        modalUpdated.innerHTML = userObject["updated_At"]
-            ? userObject["updated_At"]
-            : userObject["created_At"];
-    }
-}
-
-viewButton.forEach((item) => {
-    item.addEventListener("click", (ev) => {
-        let userId = item.getAttribute("data-id");
-        viewMemberById(userId);
-    });
-});
-
-// =====> Deleting member
-const deleteBtn = document.querySelectorAll(".deleteBtn");
-
+// =====> Delete user from localStorage
 function deleteMemberById(id) {
     const userIndex = members.findIndex((item) => item.id == id);
     if (userIndex !== -1) {
@@ -119,30 +139,39 @@ function deleteMemberById(id) {
     }
 }
 
-deleteBtn.forEach((element) => {
-    element.addEventListener("click", (ev) => {
-        let userId = element.getAttribute("data-id");
-        deleteMemberById(userId);
-        element.closest("tr").remove();
+// =====> Rebind all event listeners after each render
+function rebindEventListeners() {
+    // View button
+    document.querySelectorAll(".viewBtn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+            const userId = btn.getAttribute("data-id");
+            viewMemberById(userId);
+        });
     });
-});
 
-// =====> Deleting all members
+    // Edit button
+    document.querySelectorAll(".editBtn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+            const userId = btn.getAttribute("data-id");
+            window.location.href = `index.html?id=${userId}`;
+        });
+    });
+
+    // Delete button
+    document.querySelectorAll(".deleteBtn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+            const userId = btn.getAttribute("data-id");
+            deleteMemberById(userId);
+            btn.closest("tr").remove(); // remove from table UI
+        });
+    });
+}
+
+// =====> Delete all members
 const deleteAll = document.getElementById("removeAllBtn");
 
-deleteAll.addEventListener("click", (ev) => {
+deleteAll.addEventListener("click", () => {
     members = [];
     localStorage.setItem("allMembers", JSON.stringify(members));
-    location.reload();
-});
-
-// =====> Editing a member
-
-const editBtn = document.querySelectorAll(".editBtn");
-
-editBtn.forEach((item) => {
-    item.addEventListener("click", (ev) => {
-        userId = item.getAttribute("data-id");
-        window.location.href = `index.html?id=${userId}`;
-    });
+    location.reload(); // reload to re-render empty table
 });

@@ -158,11 +158,6 @@ form.addEventListener("submit", (e) => {
         return item["phone"] === member["phone"];
     });
 
-    if (used) {
-        window.alert("phone number used before");
-        return;
-    }
-
     let time = new Date();
 
     if (userId) {
@@ -176,6 +171,11 @@ form.addEventListener("submit", (e) => {
             alert("Member updated successfully");
         }
     } else {
+        if (used) {
+            window.alert("phone number used before");
+            return;
+        }
+
         // Create new member
         member["created_At"] = time;
         member["updated_At"] = "";
@@ -185,11 +185,11 @@ form.addEventListener("submit", (e) => {
         alert("Member added successfully");
     }
 
-    if (!userId) {
-        allMembers.push(member);
-    }
-
     localStorage.setItem("allMembers", JSON.stringify(allMembers));
 
-    window.location.href = "index.html";
+    if (userId) {
+        window.location.href = "members.html";
+    } else {
+        window.location.href = "index.html";
+    }
 });
