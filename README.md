@@ -32,9 +32,3 @@ Data is stored in **LocalStorage**, so it persists even after refreshing.
 3. Data is saved automatically in LocalStorage  
 
 No backend required 🚀  
-
----
-
-
-## 👨‍💻 Author
-Developed by **[Your Name](https://github.com/your-username)**  
