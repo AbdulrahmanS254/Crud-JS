@@ -1,20 +1,40 @@
-Members CRUD App
+# 📋 Members CRUD App
 
-A small web app to manage members using HTML, CSS, and Vanilla JavaScript.
-Data is stored in LocalStorage, so it stays even after refreshing.
+A simple web app to manage members using **HTML, CSS, and Vanilla JavaScript**.  
+Data is stored in **LocalStorage**, so it persists even after refreshing.
 
-Features
+---
 
-Add, view, edit, and delete members
+## ✨ Features
+- ➕ Add new members with validation  
+- 👀 View member details in a modal  
+- ✏️ Edit member information  
+- ❌ Delete single or all members  
+- 🔍 Search & filter by:
+  - Name  
+  - Government  
+  - Marital status  
+  - Part-time status  
 
-Search and filter by name, government, marital status, or part-time
+---
 
-Simple modal to view member details
+## 🛠️ Tech Stack
+- **HTML5**  
+- **CSS3**  
+- **JavaScript (ES6+)**  
+- **LocalStorage**
 
-Usage
+---
 
-Open index.html to add members
+## 📖 Usage
+1. Open **`index.html`** → Add members  
+2. Open **`members.html`** → View, filter, edit, or delete members  
+3. Data is saved automatically in LocalStorage  
 
-Open members.html to view, filter, edit, or delete members
+No backend required 🚀  
 
-No backend required 🚀
+---
+
+
+## 👨‍💻 Author
+Developed by **[Your Name](https://github.com/your-username)**  
